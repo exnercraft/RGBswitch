@@ -3,56 +3,30 @@
 <body>
 </body>
 <script>
-	var 
-	 r = 255
-	,g = 0
-	,b = 0;
+	
+	var grb =[0,255,0];
 	
 	var state = 0;
 	
 	setInterval(cambio);
 	
 	function cambio(){
-		if(state == 0){
-			g++;
-			if(g> 255){
-				g=255;
-				state=1;
-			}
-		}else if(state == 1){
-			r--;
-			if(r< 0){
-				r=0;
-				state=2;
-			}
-		}else if(state == 2){
-			b++;
-			if(b> 255){
-				b=255;
-				state=3;
-			}
-		}else if(state == 3){
-			g--;
-			if(g< 0){
-				g=0;
-				state=4;
-			}
-		}else if(state == 4){
-			r++;
-			if(r> 255){
-				r=255;
-				state=5;
-			}
-		}else if(state == 5){
-			b--;
-			if(b<0){
-				b=0;
-				state=0;
-			}
-		}
+		//-- Sucesion g+ r- b+ g- r+ b-: por tantolos impares restan los pares suman| 1-4g, 2-5r, 3-6b
 		
-		document.body.style.backgroundColor = "rgb("+r+","+g+","+b+")";
+		var signo = state % 2; //0:+, 1:-
+		var letra = state % 3; //0:g, 1:r, 2:b
 		
-	};
+		grb[letra] += (-2*signo)+1;
+		if(grb[letra]>254 || grb[letra]<1) state++;
+		
+		state = state%6;
+		
+		//console.log("signo:"+signo, "letra:"+letra, "estado:"+state, grb);
+		
+		document.body.style.backgroundColor = "rgb("+grb[1]+","+grb[0]+","+grb[2]+")";
+	}
+		
+	
+		
 </script>
 </html>
